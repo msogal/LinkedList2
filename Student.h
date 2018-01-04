@@ -7,6 +7,8 @@ class Student{
  public:
   //constructor
   Student(char* name, int id, float gpa);
+  //deconstructor
+  ~Student();
   char* getName();
   int getID();
   float getGPA();

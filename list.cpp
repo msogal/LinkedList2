@@ -16,6 +16,7 @@ using namespace std;
 
 void addStudent(char name[], int id, float gpa);
 void print(Node* start);
+void deleteNode(Node* target, Node* previous);
 
 Node* head = NULL;
 
@@ -55,6 +56,24 @@ int main(){
       inuse = false;
     }
     //delete a student based in the ID that the user gives you
+    if(strcmp(action, "DELETE")==0){
+      //take in the id
+      cout<<"Enter the id of the student you wish to delete"<<endl;
+      int id = 0;
+      cin>>id;
+      cin.ignore(80, '\n');
+      if(id == head->getStudent()->getID()){
+	Node* kill = head;
+	head=head->getNext();
+	delete kill;
+      }else{
+	Node* current = head;
+	while(current->getNext()->getStudent()->getID() != id){
+	  current = current->getNext();
+	}
+	deleteNode(current->getNext(),current);
+      }
+    }
   }
   cout<<"EXITED LOOP"<<endl;
   
@@ -68,7 +87,7 @@ void addStudent(char sname[80], int sid, float sgpa){
   Node* current = head;
   if(current == NULL){
     head =new Node();
-    head->setValue(s);
+    head->setStudent(s);
   }else{
     while(current->getNext()!= NULL){
       cout<<"Serching for the end..."<<endl;
@@ -77,7 +96,7 @@ void addStudent(char sname[80], int sid, float sgpa){
     }
     current->setNext(new Node());
     cout<<"Adding"<<endl;
-    current->getNext()->setValue(s);
+    current->getNext()->setStudent(s);
     cout<<"Setting"<<endl;
     cout<<"Added"<<endl;
     
@@ -85,11 +104,16 @@ void addStudent(char sname[80], int sid, float sgpa){
 }
 void print(Node* start){
   if(start != NULL){
-    start->getValue()->printS();
+    start->getStudent()->printS();
   }
   cout<<"Checking for next..."<<endl;
   if(start->getNext() != NULL){
     cout<<"Continuing..."<<endl;
     print(start->getNext());
   }
+}
+void deleteNode(Node* target, Node* previous){
+  previous->setNext(target->getNext());
+  delete target;
+  
 }

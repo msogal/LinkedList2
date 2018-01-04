@@ -1,34 +1,26 @@
-/*
-Class Node. Stores a student value, and a pointer to the next node in the linked list
- */
 #ifndef NODE_H
 #define NODE_H
 #include <iostream>
 #include "Student.h"
 
 using namespace std;
-class Node{
+
+class Node {
  public:
-  //constructor, no arguments. The default state of VALUE and NEXT are both NULL
+  //constructor, sets Student to NULL and next to NULL
   Node();
-  //desctructor
+  //destructor deletes student and sets next to null
   ~Node();
-  //returns the Student that the node stores
-  Student* getValue();
-  //use this to set the Student
-  void setValue(Student* s);
-  //returns the next node in the list 
+  //sets the student on the Node
+  void setStudent(Student* newS);
+  //returns the student
+  Student* getStudent();
+  //sets the next Node
+  void setNext(Node* newN);
+  //returns the next Node
   Node* getNext();
-  //use this to set the  next node  
-  void setNext(Node* n);
-
  private:
-  //The student that is contained in this element of the list accessed via getValue() and setValue(Student* s)
-  Student* value;
-  //The next element in the list
+  Student* student;
   Node* next;
-  
-  //***NOTE: both VALUE and NEXT are initialized at NULL
-
 };
 #endif

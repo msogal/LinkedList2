@@ -8,6 +8,9 @@ Student::Student(char* nname, int nid, float ngpa){
   id = nid;
   gpa = ngpa;
 }
+Student::~Student(){
+
+}
 int Student::getID(){
   return id;
 }
