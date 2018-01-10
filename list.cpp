@@ -50,6 +50,21 @@ int main(){
       print(head);
       
     }
+    if(strcmp(action, "AVG")==0){
+      Node* current = head;
+      int nodecount = 1;
+      float agpa = current->getStudent()->getGPA();
+      while(current->getNext() != NULL){
+	current = current->getNext();
+	agpa += current->getStudent()->getGPA();
+	nodecount++;
+      }
+      cout<<fixed;
+      setprecision(2);
+      cout<<(agpa/nodecount)<<endl;;
+      
+      
+    }
     //exit the loop
     if(strcmp(action, "QUIT")==0){
       cout<<"Exiting..."<<endl;

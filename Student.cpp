@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include "Student.h"
 
 using namespace std;
@@ -21,6 +22,8 @@ char* Student::getName(){
   return name;
 }
 void Student::printS(){
+  cout<<fixed;
+  cout<<setprecision(2);
   cout<<"Name: "<<name<<endl;
   cout<<"GPA: " <<gpa<<endl;
   cout<<"ID: " <<id<<endl;
