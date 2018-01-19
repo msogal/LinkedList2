@@ -14,11 +14,11 @@ using namespace std;
 //this struct is used to store name ,gpa, and id for all students
 
 
-void addStudent(char name[], int id, float gpa);
+void addStudent(Student* s, Node* &start);
 void print(Node* start);
-void deleteNode(Node* target, Node* previous);
+void deleteNode(Node* &start, int id);
 
-Node* head = NULL;
+Node* head; 
 
 int main(){
   bool inuse = true;
@@ -43,15 +43,20 @@ int main(){
       cin>>gpa;
       cin.ignore(80, '\n');
       cout<<"Adding student... "<<"Name: "<<name<<"ID: "<<id<<"GPA: "<<gpa <<endl;
-      addStudent(name, id, gpa);
+      Student* s = new Student(name, id, gpa);
+      addStudent(s, head);
     }
     //if user wants to print, go through the nodes, and print the info for each student
     if(strcmp(action,"PRINT")==0){
-      print(head);
-      
+      if(head != NULL){
+	print(head);
+      }else{
+	cout<<"List is empty"<<endl;
+      }
     }
     if(strcmp(action, "AVG")==0){
       Node* current = head;
+      if(current != NULL){
       int nodecount = 1;
       float agpa = current->getStudent()->getGPA();
       while(current->getNext() != NULL){
@@ -62,7 +67,9 @@ int main(){
       cout<<fixed;
       setprecision(2);
       cout<<(agpa/nodecount)<<endl;;
-      
+    }else{
+      cout<<"List is empty"<<endl;
+    }
       
     }
     //exit the loop
@@ -77,45 +84,31 @@ int main(){
       int id = 0;
       cin>>id;
       cin.ignore(80, '\n');
-      if(id == head->getStudent()->getID()){
-	Node* kill = head;
-	head=head->getNext();
-	delete kill;
-      }else{
-	Node* current = head;
-	while(current->getNext()->getStudent()->getID() != id){
-	  current = current->getNext();
-	}
-	deleteNode(current->getNext(),current);
-      }
-    }
+      deleteNode(head, id);
+    }  
   }
   cout<<"EXITED LOOP"<<endl;
   
   return 0;
 }
 
-void addStudent(char sname[80], int sid, float sgpa){
+void addStudent(Student* s, Node* &start){
   // cout<<"Entered addStudent"<<endl;
-  Student* s = new Student(sname, sid, sgpa);
   // cout<<"Student* created"<<endl;
-  Node* current = head;
+  Node* current = start;
   if(current == NULL){
-    head =new Node();
-    head->setStudent(s);
+    start =new Node();
+    start->setStudent(s);
   }else{
-    while(current->getNext()!= NULL){
-      cout<<"Serching for the end..."<<endl;
+    if(current->getNext()== NULL){
+      current->setNext(new Node());
+      current->getNext()->setStudent(s);
+    }else{
       current = current->getNext();
-      cout<<"End found..."<<endl;
+      addStudent(s, current);
     }
-    current->setNext(new Node());
-    cout<<"Adding"<<endl;
-    current->getNext()->setStudent(s);
-    cout<<"Setting"<<endl;
-    cout<<"Added"<<endl;
-    
   }
+
 }
 void print(Node* start){
   if(start != NULL){
@@ -127,8 +120,21 @@ void print(Node* start){
     print(start->getNext());
   }
 }
-void deleteNode(Node* target, Node* previous){
-  previous->setNext(target->getNext());
-  delete target;
+void deleteNode(Node* &start, int id){
+  Node* current = start;
+  if(current->getStudent()->getID()==id){
+    Node* kill = start;
+    start = start->getNext();
+    delete kill;
+  }else{
+    if(current->getNext()->getStudent()->getID()==id){
+      Node* target = current->getNext();
+      current->setNext(target->getNext());
+      delete target;
+    }else{
+      current = current->getNext();
+      deleteNode(current, id);
+    }
+  }
   
 }
