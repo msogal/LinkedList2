@@ -65,7 +65,7 @@ int main(){
 	nodecount++;
       }
       cout<<fixed;
-      setprecision(2);
+      cout<<setprecision(2);
       cout<<(agpa/nodecount)<<endl;;
     }else{
       cout<<"List is empty"<<endl;
@@ -122,6 +122,7 @@ void print(Node* start){
 }
 void deleteNode(Node* &start, int id){
   Node* current = start;
+  if(current != NULL){
   if(current->getStudent()->getID()==id){
     Node* kill = start;
     start = start->getNext();
@@ -136,5 +137,7 @@ void deleteNode(Node* &start, int id){
       deleteNode(current, id);
     }
   }
-  
+  }else{
+    cout<<"List is empty"<<endl;
+  }
 }
